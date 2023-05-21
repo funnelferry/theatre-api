@@ -2,7 +2,8 @@ const express = require('express');
 const { sequelize, connectDatabase } = require('./configs/db');
 const theatresRoutes = require('./routes/theatresRoutes');
 const moviesRoutes = require('./routes/moviesRoutes');
-const movieDatesRoutes = require('./routes/movieDatesRoutes');
+const movieDatesRoutes = require('./routes/showtimesRoutes');
+require('dotenv').config();
 
 const app = express();
 
