@@ -2,8 +2,8 @@ const express = require('express');
 const { sequelize, connectDatabase } = require('./configs/db');
 const theatresRoutes = require('./routes/theatresRoutes');
 const moviesRoutes = require('./routes/moviesRoutes');
-const movieDatesRoutes = require('./routes/showtimesRoutes');
-require('dotenv').config();
+const showtimesRoutes = require('./routes/showtimesRoutes');
+require('dotenv').config('../.env');
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(express.json());
 // API routes
 app.use('/', theatresRoutes);
 app.use('/', moviesRoutes);
-app.use('/', movieDatesRoutes);
+app.use('/', showtimesRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

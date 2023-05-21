@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('sequelize');
+const {sequelize, connectDatabase} = require('../configs/db');
 
 const Movie = sequelize.define('Movie', {
   title: {
@@ -10,6 +10,7 @@ const Movie = sequelize.define('Movie', {
     type: DataTypes.STRING,
     allowNull: true
   }
+
 });
 
 module.exports = Movie;

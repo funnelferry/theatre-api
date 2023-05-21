@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config('../.env'); // Load environment variables from .env file into process.env
+require('dotenv').config('../../.env'); // Load environment variables from .env file into process.env
 
 const sequelize = new Sequelize(
     process.env.DB_NAME, // Database name
@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
     process.env.DB_PASSWORD, // Database password
     {
         host: process.env.DB_HOST, // Database host
-        dialect: 'mysql' // Database type
+        dialect: 'mysql', // Database type
     }
 );
 
