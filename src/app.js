@@ -1,8 +1,9 @@
 const express = require('express');
-const { sequelize, connectDatabase } = require('./configs/db');
+const connectDatabase = require('./configs/db').connectDatabase;
 const theatresRoutes = require('./routes/theatresRoutes');
 const moviesRoutes = require('./routes/moviesRoutes');
 const showtimesRoutes = require('./routes/showtimesRoutes');
+const associations = require('./models/associations')
 require('dotenv').config('../.env');
 
 const app = express();
@@ -26,4 +27,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
   connectDatabase();
+  associations();
 });
