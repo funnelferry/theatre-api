@@ -4,11 +4,10 @@ const Showtime = require('./showtime.model');
 const sequelize = require('../configs/db').sequelize;
 
 const associations = () => {
-    Theatre.hasMany(Movie, { foreignKey: 'theatreId' });
-    Movie.belongsTo(Theatre, { foreignKey: 'theatreId' });
-
-    Movie.hasMany(Showtime, { foreignKey: 'movieId' });
-    Showtime.belongsTo(Movie, { foreignKey: 'movieId' });
+    Movie.hasMany(Showtime, { foreignKey: "movieId" });
+    Theatre.hasMany(Showtime, { foreignKey: "theatreId" });
+    Showtime.belongsTo(Movie, { foreignKey: "movieId" });
+    Showtime.belongsTo(Theatre, { foreignKey: "theatreId" });
 
     // Run the migrations
     (async () => {
