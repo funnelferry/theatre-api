@@ -1,7 +1,6 @@
 const express = require('express');
 const connectDatabase = require('./configs/db').connectDatabase;
 const theatresRoutes = require('./routes/theatresRoutes');
-const moviesRoutes = require('./routes/moviesRoutes');
 const showtimesRoutes = require('./routes/showtimesRoutes');
 const associations = require('./models/associations')
 require('dotenv').config('../.env');
@@ -13,7 +12,6 @@ app.use(express.json());
 
 // API routes
 app.use('/', theatresRoutes);
-app.use('/', moviesRoutes);
 app.use('/', showtimesRoutes);
 
 // Error handling middleware

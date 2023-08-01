@@ -1,55 +1,72 @@
-  const { Sequelize, DataTypes } = require('sequelize');
-  const { sequelize } = require('../configs/db');
-  const Theatre = require('../models/theatre.model');
-  const Movie = require('../models/movie.model');
-  const Showtime = require('../models/showtime.model');
+const { sequelize } = require('../configs/db');
+const Theatre = require('../models/theatre.model');
+const Movie = require('../models/movie.model');
+const Showtime = require('../models/showtime.model');
 
-  const populateDB = async () => {
+
+Movie.hasMany(Showtime, { foreignKey: "movieid" });
+Theatre.hasMany(Showtime, { foreignKey: "theatreid" });
+Showtime.belongsTo(Movie, { foreignKey: "movieid" });
+Showtime.belongsTo(Theatre, { foreignKey: "theatreid" });
+
+const populateDB = async () => {
+  try {
     // Define theatres
-    const theatres = [
+    const theatresData = [
       { name: 'PVR Indiranagar', city: 'Bengaluru' },
       { name: 'INOX HSR', city: 'Bengaluru' },
     ];
-  
+
     // Define movies
-    const movies = [
+    const moviesData = [
       { title: 'Barbie', description: 'A Barbie movie.' },
       { title: 'Oppenheimer', description: 'A movie about Oppenheimer.' },
     ];
-  
+
+    // Create theatres and movies
+    const [theatres, movies] = await Promise.all([
+      Theatre.bulkCreate(theatresData, { returning: true }),
+      Movie.bulkCreate(moviesData, { returning: true }),
+    ]);
+
     // Define showtimes
-    const showtimes = [
-      '14:00:00',
-      '19:00:00',
+    const showtimesData = [
+      { time: '14:00:00', dateOffset: 0 }, // Today's showtime
+      { time: '19:00:00', dateOffset: 0 }, // Today's showtime
+      { time: '14:00:00', dateOffset: 1 }, // Tomorrow's showtime
+      { time: '19:00:00', dateOffset: 1 }, // Tomorrow's showtime
     ];
-  
-    // For each theatre
-    for (let theatre of theatres) {
-      // Create theatre
-      const createdTheatre = await Theatre.create(theatre);
-  
-      // For each movie
-      for (let movie of movies) {
-        // Create movie with reference to theatre
-        const createdMovie = await Movie.create({ ...movie, theatreId: createdTheatre.id });
-  
-        // For each of the next 7 days
-        for (let i = 0; i < 7; i++) {
-          // Calculate date
-          const date = new Date();
-          date.setDate(date.getDate() + i);
-  
-          // For each showtime
-          for (let time of showtimes) {
-            // Create showtime with reference to movie
-            await Showtime.create({ time, date, movieId: createdMovie.id });
+
+    // Create showtimes for each movie in each theatre for the next 7 days
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const nextWeek = new Date(today);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+
+    for (let date = new Date(today); date < nextWeek; date.setDate(date.getDate() + 1)) {
+      for (let theatre of theatres) {
+        for (let movie of movies) {
+          for (let showtimeData of showtimesData) {
+            const showtimeDate = new Date(date);
+            showtimeDate.setDate(showtimeDate.getDate() + showtimeData.dateOffset);
+            const time = showtimeData.time;
+            
+            await Showtime.create({
+              time,
+              date: showtimeDate,
+              movieid: movie.id,
+              theatreid: theatre.id,
+            });
           }
         }
       }
     }
-  
+
     console.log('Database has been populated!');
-  };
-  
-  // Call the function to populate the database
-  populateDB().catch(console.error);
+  } catch (error) {
+    console.error('Error populating the database:', error);
+  }
+};
+
+// Call the function to populate the database
+populateDB();
