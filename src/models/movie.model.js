@@ -16,6 +16,10 @@ const Movie = sequelize.define('Movie', {
     allowNull: true
   }
 
+},
+{
+  freezeTableName: true,
+  timestamps: false
 });
 
 module.exports = Movie;

@@ -15,6 +15,10 @@ const Theatre = sequelize.define('Theatre', {
     type: DataTypes.STRING,
     allowNull: false
   }
+},
+{
+  freezeTableName: true,
+  timestamps: false
 });
 
 module.exports = Theatre;

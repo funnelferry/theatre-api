@@ -82,8 +82,8 @@ const bookSeat = async (req, res) => {
       }
 
       // Update the bookedSeats array with the newly booked seats
-      lockedShowtime.bookedSeats = [
-        ...lockedShowtime.bookedSeats,
+      lockedShowtime.bookedseats = [
+        ...lockedShowtime.bookedseats,
         ...seatNumbers,
       ];
       // Remove the booked seats from the available seats
