@@ -13,7 +13,7 @@ const associations = () => {
     // Run the migrations
     (async () => {
         try {
-        await sequelize.sync({ alter: false }); // This will automatically run the migrations
+        await sequelize.sync({ alter: true }); // This will automatically run the migrations
         console.log('Migrations executed successfully.');
         } catch (error) {
         console.error('Error executing migrations:', error);

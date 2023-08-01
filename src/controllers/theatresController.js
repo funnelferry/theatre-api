@@ -1,12 +1,15 @@
 const Theatre = require('../models/theatre.model');
 
 // Get all theatres
-exports.getAllTheatres = async (req, res) => {
+// Fetch all theatres
+const getAllTheatres = async (req, res) => {
   try {
     const theatres = await Theatre.findAll();
-    res.json(theatres);
+    return res.json(theatres);
   } catch (error) {
-    console.error('Error fetching theatres:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
   }
 };
+
+module.exports = {getAllTheatres}
