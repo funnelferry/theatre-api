@@ -1,7 +1,7 @@
 
 # Bookmyshow Ticketing Platform API
 
-This project provides an API for the Bookmyshow ticketing platform. It allows users to select a theater in the city, view the dates of the next 7 days, retrieve movie details for a specific theater and date, and book seats for a specific showtime.
+This project provides an API for the Bookmyshow ticketing platform. It allows users to select a theatre in the city, view the dates of the next 7 days, retrieve movie details for a specific theatre and date, and book seats for a specific showtime.
 
 ## Requirements
 
@@ -32,29 +32,29 @@ This project provides an API for the Bookmyshow ticketing platform. It allows us
 
 ## API Endpoints
 
-### 1. Get all theaters
+### 1. Get all theatre
 
 - Endpoint: `/theatres`
 - Method: GET
-- Description: Returns a list of all theaters in the city.
+- Description: Returns a list of all theatre in the city.
 
 ### 2. Get movies and showtimes for a theatre (next 7 days)
 
 - Endpoint: `/theatres/:id/movies`
 - Method: GET
-- Description: Returns the movies and showtimes for a specific theater for the next 7 days.
+- Description: Returns the movies and showtimes for a specific theatre for the next 7 days.
 
-### 3. Fetch showtimes for a theater for the next 7 days
+### 3. Fetch showtimes for a theatre for the next 7 days
 
-- Endpoint: `/theatres/:theaterId/showtimes/next-7-days`
+- Endpoint: `/theatres/:theatreId/showtimes/next-7-days`
 - Method: GET
-- Description: Returns the showtimes for a specific theater for the next 7 days.
+- Description: Returns the showtimes for a specific theatre for the next 7 days.
 
-### 4. Fetch showtimes for a theater for a specific date
+### 4. Fetch showtimes for a theatre for a specific date
 
-- Endpoint: `/theatres/:theaterId/showtimes/:date`
+- Endpoint: `/theatres/:theatreId/showtimes/:date`
 - Method: GET
-- Description: Returns the showtimes for a specific theater on a given date.
+- Description: Returns the showtimes for a specific theatre on a given date.
 
 ### 5. Book a seat for a specific showtime
 
@@ -62,4 +62,4 @@ This project provides an API for the Bookmyshow ticketing platform. It allows us
 - Method: POST
 - Description: Books a seat for a specific showtime.
 
-Please replace `:id`, `:theaterId`, `:date`, and `:showtimeId` with appropriate values in the above endpoints. The date should be provided in the format 'YYYY-MM-DD'.
+Please replace `:id`, `:theatreId`, `:date`, and `:showtimeId` with appropriate values in the above endpoints. The date should be provided in the format 'YYYY-MM-DD'.

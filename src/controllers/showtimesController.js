@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { sequelize, connectDatabase } = require('../configs/db.js');
 const Movie = require('../models/movie.model');
 const Showtime = require('../models/showtime.model');
@@ -10,7 +11,7 @@ const getShowsForDate = async (req, res) => {
 
     const showtimes = await Showtime.findAll({
       where: {
-        theatreId: theatreId,
+        theatreid: theatreId,
         date: showDate,
       },
     });
@@ -24,7 +25,9 @@ const getShowsForDate = async (req, res) => {
 
 // Fetch showtimes for a theatre (next 7 days)
 const getShowsForWeek = async (req, res) => {
+  console.log(req.params);
   const { theatreId } = req.params;
+  console.log(theatreId);
   try {
     const startDate = new Date();
     const endDate = new Date();
@@ -32,7 +35,7 @@ const getShowsForWeek = async (req, res) => {
 
     const showtimes = await Showtime.findAll({
       where: {
-        theatreId: theatreId,
+        theatreid: theatreId,
         date: {
           [Op.between]: [startDate, endDate],
         },
@@ -47,10 +50,12 @@ const getShowsForWeek = async (req, res) => {
 };
 
 const bookSeat = async (req, res) => {
-  const { showtimeId, seatNumbers } = req.body;
+  const { showtimeId, seatNumbers } = req.body;  
 
   try {
     const showtime = await Showtime.findByPk(showtimeId);
+
+    console.log(showtime)
 
     if (!showtime) {
       return res.status(404).json({ error: "Showtime not found" });
@@ -58,11 +63,16 @@ const bookSeat = async (req, res) => {
 
     // Check if the seats are available
     const unavailableSeats = seatNumbers.filter(
-      (seatNumber) =>
-        showtime.bookedSeats.includes(seatNumber) ||
-        !showtime.seats.includes(seatNumber)
-    );
+      (seatNumber) => {
+        // Log the seat number and the includes results to check if they're correct
+        console.log('seatNumber:', seatNumber);
+        console.log('showtime.bookedSeats.includes(seatNumber):', showtime.bookedseats.includes(seatNumber));
+        console.log('showtime.seats.includes(seatNumber):', showtime.seats.includes(seatNumber));
 
+        return showtime.bookedseats.includes(seatNumber) ||
+               !showtime.seats.includes(seatNumber)
+      }
+    );
     if (unavailableSeats.length > 0) {
       return res
         .status(400)
